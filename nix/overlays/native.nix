@@ -28,7 +28,7 @@ in {
   };
 
   # lies, all lies
-  openssl-static-osx = prev.openssl;
+  openssl-static-osx = prev.openssl_1_1;
   zlib-static-osx = prev.zlib;
 
   lmdb = prev.lmdb.overrideAttrs (attrs: {

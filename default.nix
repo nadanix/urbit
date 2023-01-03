@@ -78,6 +78,8 @@ let
   # Local vendored packages defined in ./pkg.
   # For non-vendored nixpkgs specific package overrides, see ./nix/overlays.
   pkgsLocal = {
+    stdenv = pkgsNative.gcc10Stdenv;
+
     ca-bundle = callPackage ./nix/pkgs/ca-bundle { };
 
     ent = callPackage ./nix/pkgs/ent { };

@@ -1,7 +1,7 @@
 { lib, stdenv, coreutils, pkgconfig                      # build/env
 , cacert, ca-bundle, ivory                               # codegen
 , curlUrbit, ent, gmp, h2o, libsigsegv, libuv, lmdb      # libs
-, murmur3, openssl, openssl-static-osx, softfloat3       #
+, murmur3, openssl_1_1, openssl-static-osx, softfloat3   #
 , urcrypt, zlib, zlib-static-osx                         #
 , enableStatic           ? stdenv.hostPlatform.isStatic  # opts
 , enableDebug            ? false
@@ -15,6 +15,8 @@ let
   src = lib.cleanSource ../../../pkg/urbit;
 
   version = builtins.readFile "${src}/version";
+
+  openssl = openssl_1_1;
 
   # See https://github.com/urbit/urbit/issues/5561
   oFlags =
@@ -33,10 +35,10 @@ in stdenv.mkDerivation {
   buildInputs = [
     cacert
     ca-bundle
-    curlUrbit
+    (curlUrbit.override { inherit openssl; })
     ent
     gmp
-    h2o
+    (h2o.override { inherit openssl; })
     ivory.header
     libsigsegv
     libuv
@@ -44,7 +46,7 @@ in stdenv.mkDerivation {
     murmur3
     (if stdenv.isDarwin && enableStatic then openssl-static-osx else openssl)
     softfloat3
-    urcrypt
+    (urcrypt.override { inherit openssl; })
     (if stdenv.isDarwin && enableStatic then zlib-static-osx else zlib)
   ];
 

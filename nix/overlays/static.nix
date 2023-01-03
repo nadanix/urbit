@@ -22,7 +22,7 @@ in {
 
   libffi = enableStatic prev.libffi;
 
-  openssl-static-osx = prev.openssl.override {
+  openssl-static-osx = prev.openssl_1_1.override {
     static   = true;
     withPerl = false;
   };
